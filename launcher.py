@@ -53,9 +53,6 @@ if __name__ == '__main__':
     elif cmdline.mode == 'services':
         pkg_list = '/usr/share/vzlinux-autotest/' + target + 'service.list'
 
-    print pkg_list
-    sys.exit(1)
-
     init_chroot(cmdline.target)
 
     if cmdline.mode == 'apps':
