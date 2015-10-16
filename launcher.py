@@ -8,10 +8,10 @@ import os
 
 def init_chroot(target):
     try:
-        subprocess.call(['sudo', 'mock', 'r', target + '-autotest',
+        subprocess.call(['sudo', 'mock', '-r', target + '-autotest-x86_64',
                                  '--init'])
         subprocess.call(['sudo', 'mount', '-o', 'bind', '/proc',
-                                 '/var/lib/mock/' + target + '-autotest-x86_64/proc'])
+                                 '/var/lib/mock/' + target + '-autotest-x86_64/root/proc'])
     except:
         print("mock failed to initializae chroot, probably incorrect target name")
         sys.exit(1)
@@ -19,18 +19,18 @@ def init_chroot(target):
 def run_app_tests(target, pkgs_list):
     subprocess.call(['sudo', 'cp', '/usr/share/vzlinux-autotest/check_apps_in_chroot.py',
                              '/var/lib/mock/' + target + '-autotest-x86_64/root/root'])
-    subprocess.call(['sudo', 'cp', '/usr/share/vzlinux-autotest/desktop.list',
+    subprocess.call(['sudo', 'cp', pkgs_list,
                              '/var/lib/mock/' + target + '-autotest-x86_64/root/root/list'])
-    subprocess.call(['sudo', 'chroot', '/var/lib/mock/' + target + '-autotest-x86_64/root'],
-                             'python', 'root/check_apps_in_chroot.py', 'root/list')
+    subprocess.call(['sudo', 'chroot', '/var/lib/mock/' + target + '-autotest-x86_64/root',
+                             'python', 'root/check_apps_in_chroot.py', 'root/list'])
 
 def run_service_tests(target, pkgs_list):
     subprocess.call(['sudo', 'cp', '/usr/share/vzlinux-autotest/check_services_in_chroot.py',
                              '/var/lib/mock/' + target + '-autotest-x86_64/root/root'])
-    subprocess.call(['sudo', 'cp', '/usr/share/vzlinux-autotest/service.list',
+    subprocess.call(['sudo', 'cp', pkgs_list,
                              '/var/lib/mock/' + target + '-autotest-x86_64/root/root/list'])
-    subprocess.call(['sudo', 'chroot', '/var/lib/mock/' + target + '-autotest-x86_64/root'],
-                             'python', 'root/check_services_in_chroot.py', 'root/list')
+    subprocess.call(['sudo', 'chroot', '/var/lib/mock/' + target + '-autotest-x86_64/root',
+                             'python', 'root/check_services_in_chroot.py', 'root/list'])
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description="VzLinux Autotest Launcher")
