@@ -128,8 +128,9 @@ def add_to_list(pkgname, fname):
 
 def get_installed_list():
     '''Returns the list of installed packages as a set.'''
-    out = subprocess.check_output(
-        ['sudo', 'rpm', '-q', '-a', '--queryformat', '%{NAME}\n'])
+    out = subprocess.Popen(
+        ['sudo', 'rpm', '-q', '-a', '--queryformat', '%{NAME}\n'],
+        stdout=subprocess.PIPE).communicate()[0]
     return set(out.split('\n'))
 
 
@@ -147,8 +148,9 @@ def check_apps(pkg, pkg_log):
     print 'Processing', pkg
 
     try:
-        out = subprocess.check_output(['sudo', 'rpm', '-q', '-l', pkg],
-                                      stderr=pkg_log)
+        out = subprocess.Popen(['sudo', 'rpm', '-q', '-l', pkg],
+                                      stdout=subprocess.PIPE,
+                                      stderr=pkg_log).communicate()[0]
 
     except subprocess.CalledProcessError as e:
         pkg_log.write(
