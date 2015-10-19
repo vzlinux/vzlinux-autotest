@@ -40,7 +40,7 @@ from glob import glob
 
 
 # Regexp for the needed paths to the .desktop files.
-re_desktop = re.compile('/usr/share/applications/.*\\.desktop|/usr/share/kde4/services/.*\\.desktop')
+re_desktop = re.compile('/usr/share/(applications|autostart|kde4/services)/.*\\.desktop')
 
 SEP = 72 * '='
 
