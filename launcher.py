@@ -49,9 +49,9 @@ if __name__ == '__main__':
             os.write(ftmp, p + "\n")
         os.close(ftmp)
     elif cmdline.mode == 'apps':
-        pkg_list = '/usr/share/vzlinux-autotest/' + target + 'desktop.list'
+        pkg_list = '/usr/share/vzlinux-autotest/' + cmdline.target + 'desktop.list'
     elif cmdline.mode == 'services':
-        pkg_list = '/usr/share/vzlinux-autotest/' + target + 'service.list'
+        pkg_list = '/usr/share/vzlinux-autotest/' + cmdline.target + 'service.list'
 
     init_chroot(cmdline.target)
 
