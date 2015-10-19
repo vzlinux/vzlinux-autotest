@@ -161,6 +161,7 @@ def check_apps(pkg, pkg_log):
 
     nfiles = 0
     failed = False
+    processed_commands = {}
 
     for fl in out.split('\n'):
         if re_desktop.match(fl):
@@ -205,6 +206,11 @@ def check_apps(pkg, pkg_log):
                     exec_opt = exec_opt + 'Test\''
 
             command = exec_opt.strip()
+            if command in processed_commands:
+                pkg_log.write(
+                    'Command \'%s\' has been already checked.\n' % command)
+                continue
+            processed_commands[command] = True
 
             if not cfg.has_option(SECTION, 'Name'):
                 name = None
@@ -400,13 +406,9 @@ def do_check(pkg, name, command, pkg_log, timeout=DEFAULT_TIMEOUT):
     crashed = False
 
     try:
-        if command.find("kcmshell") >= 0:
-            (cmd, arg) = string.split(command, " ")
-            proc = subprocess.Popen(
-                ["xvfb-run", cmd, arg], stdout=pkg_log, stderr=pkg_log)
-        else:
-            proc = subprocess.Popen(
-                ["xvfb-run", command], stdout=pkg_log, stderr=pkg_log)
+        cmd = string.split(command, " ")
+        proc = subprocess.Popen(
+            ["xvfb-run"] + cmd, stdout=pkg_log, stderr=pkg_log)
 #            ['cgexec', '-g', CGROUP, command], stdout=pkg_log,
 #            stderr=pkg_log)
         time.sleep(timeout)
