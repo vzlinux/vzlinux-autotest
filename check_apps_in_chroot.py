@@ -31,6 +31,7 @@ import resource
 import signal
 import shutil
 import psutil
+import string
 
 from datetime import datetime
 from ConfigParser import RawConfigParser
@@ -39,7 +40,7 @@ from glob import glob
 
 
 # Regexp for the needed paths to the .desktop files.
-re_desktop = re.compile('/usr/share/applications/.*\\.desktop')
+re_desktop = re.compile('/usr/share/applications/.*\\.desktop|/usr/share/kde4/services/.*\\.desktop')
 
 SEP = 72 * '='
 
@@ -184,7 +185,7 @@ def check_apps(pkg, pkg_log):
                 continue
 
             tp = cfg.get(SECTION, 'Type')
-            if tp != 'Application':
+            if tp != 'Application' and tp != 'Service':
                 pkg_log.write(''.join([
                     'File ', fl,
                     ' does not specify and application (Type=', tp, ').\n']))
@@ -399,9 +400,13 @@ def do_check(pkg, name, command, pkg_log, timeout=DEFAULT_TIMEOUT):
     crashed = False
 
     try:
-        proc = subprocess.Popen(
-            ["xvfb-run", command], stdout=pkg_log,
-            stderr=pkg_log)
+        if command.find("kcmshell") >= 0:
+            (cmd, arg) = string.split(command, " ")
+            proc = subprocess.Popen(
+                ["xvfb-run", cmd, arg], stdout=pkg_log, stderr=pkg_log)
+        else:
+            proc = subprocess.Popen(
+                ["xvfb-run", command], stdout=pkg_log, stderr=pkg_log)
 #            ['cgexec', '-g', CGROUP, command], stdout=pkg_log,
 #            stderr=pkg_log)
         time.sleep(timeout)
