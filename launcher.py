@@ -5,6 +5,7 @@ import argparse
 import sys
 import tempfile
 import os
+from lockfile import LockFile, LockTimeout
 
 def init_chroot(target):
     try:
@@ -43,11 +44,28 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description="VzLinux Autotest Launcher")
     parser.add_argument('target', action='store', choices=['vzlinux-6', 'vzlinux-7'])
     parser.add_argument('mode', action='store', choices=['apps','services'])
+    parser.add_argument('-t', '--timeout', action='store', nargs='?',
+                               help='Maximum time in seconds to wait for an exclusive lock '\
+                                    'on a test chroot')
     parser.add_argument('-p', '--pkg', action='append',
                                help='Check only package with given name. This option can ' \
                                     'be specified more than once. By default, all packages ' \
                                     'from the autotest list are checked.')
     cmdline = parser.parse_args(sys.argv[1:])
+
+    lock_name = "/tmp/vzlinux-autotest-" + cmdline.target
+    chroot_timeout = 60
+    if cmdline.timeout:
+        chroot_timeout = cmdline.timeout
+
+    lock = LockFile(lock_name)
+    try:
+        print("Acquiring lock for '%s' chroot" % cmdline.target)
+        lock.acquire(timeout=chroot_timeout)    # wait up to 60 seconds
+    except LockTimeout:
+        print('Cannot acquire lock, likely another instance of a test is already running. '
+              'If this is not the case, please remove lock file "%s" manually.' % lock_name)
+        sys.exit(1)
 
     # Form list of packages to be processed - checkers takes file with package list
     if cmdline.pkg:
@@ -56,9 +74,9 @@ if __name__ == '__main__':
             os.write(ftmp, p + "\n")
         os.close(ftmp)
     elif cmdline.mode == 'apps':
-        pkg_list = '/usr/share/vzlinux-autotest/' + cmdline.target + 'desktop.list'
+        pkg_list = '/usr/share/vzlinux-autotest/' + cmdline.target + '.desktop.list'
     elif cmdline.mode == 'services':
-        pkg_list = '/usr/share/vzlinux-autotest/' + cmdline.target + 'service.list'
+        pkg_list = '/usr/share/vzlinux-autotest/' + cmdline.target + '.service.list'
 
     init_chroot(cmdline.target)
 
