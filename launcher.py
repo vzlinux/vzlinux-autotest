@@ -5,6 +5,8 @@ import argparse
 import sys
 import tempfile
 import os
+import time
+import shutil
 from lockfile import LockFile, LockTimeout
 
 def init_chroot(target):
@@ -25,14 +27,37 @@ def init_chroot(target):
         sys.exit(1)
 
 def run_app_tests(target, pkgs_list):
+    # Prepare a folder for logs
+    subprocess.call(['sudo', 'mkdir', "-m777", "/var/log/vzlinux-autotests/"])
+
     subprocess.call(['sudo', 'cp', '/usr/share/vzlinux-autotest/check_apps_in_chroot.py',
                              '/var/lib/mock/' + target + '-autotest-x86_64/root/root'])
-    subprocess.call(['sudo', 'cp', pkgs_list,
-                             '/var/lib/mock/' + target + '-autotest-x86_64/root/root/list'])
-    subprocess.call(['sudo', 'chroot', '/var/lib/mock/' + target + '-autotest-x86_64/root',
-                             'python', 'root/check_apps_in_chroot.py', 'root/list'])
-    subprocess.call(['sudo', 'mock', '-r', target + '-autotest-x86_64',
-                             '--orphanskill'])
+
+    f = open(pkgs_list, 'r')
+    for pkg in f.readlines():
+    #    subprocess.call(['sudo', 'cp', pkgs_list,
+    #                             '/var/lib/mock/' + target + '-autotest-x86_64/root/root/list'])
+        pkg_file = open('/var/lib/mock/' + target + '-autotest-x86_64/root/tmp/list', 'w')
+        pkg_file.write(pkg)
+        pkg_file.close()
+        subprocess.call(['sudo', 'chroot', '/var/lib/mock/' + target + '-autotest-x86_64/root',
+                                 'python', 'root/check_apps_in_chroot.py', 'tmp/list'])
+
+        # Copy results to /var/log
+        result_dir = "/var/log/vzlinux-autotests/" + target + "/" + pkg.rstrip()
+        if os.path.exists(result_dir):
+            shutil.rmtree(result_dir)
+        testdir = '/var/lib/mock/' + target + '-autotest-x86_64/root/results'
+        shutil.copytree(testdir, result_dir)
+
+        # Kill orphans - that's why we call check_apps_in_chroot.py per every package, not
+        # per all packages at once. Orphans will be killed after each package test and won't
+        # occupy too many resources
+        subprocess.call(['sudo', 'mock', '-r', target + '-autotest-x86_64',
+                                 '--orphanskill'])
+        # We have to remount /proc after orpahskill
+        subprocess.call(['sudo', 'mount', '-o', 'bind', '/proc',
+                                 '/var/lib/mock/' + target + '-autotest-x86_64/root/proc'])
 
 def run_service_tests(target, pkgs_list):
     subprocess.call(['sudo', 'cp', '/usr/share/vzlinux-autotest/check_services_in_chroot.py',
