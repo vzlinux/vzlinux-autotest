@@ -31,6 +31,8 @@ def run_app_tests(target, pkgs_list):
                              '/var/lib/mock/' + target + '-autotest-x86_64/root/root/list'])
     subprocess.call(['sudo', 'chroot', '/var/lib/mock/' + target + '-autotest-x86_64/root',
                              'python', 'root/check_apps_in_chroot.py', 'root/list'])
+    subprocess.call(['sudo', 'mock', '-r', target + '-autotest-x86_64',
+                             '--orphanskill'])
 
 def run_service_tests(target, pkgs_list):
     subprocess.call(['sudo', 'cp', '/usr/share/vzlinux-autotest/check_services_in_chroot.py',
@@ -88,4 +90,4 @@ if __name__ == '__main__':
     # Cleanup
     if cmdline.pkg:
         os.remove(pkg_list)
-
+    lock.release()
