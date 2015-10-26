@@ -1,6 +1,7 @@
 docker autotester
 
 How to build me?
+
 * docker build --tag=vzlinux/autotest .
 
 How to run me?
@@ -10,6 +11,7 @@ How to run me?
 Feel free to change PKG to any package from list according to vzlinux platform
 
 Don't forgot to wipe old containers from aufs layers
+
 * docker rm -v $(docker ps -a -q -f status=exited)
 
 TODO:
