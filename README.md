@@ -15,6 +15,7 @@ Don't forgot to wipe old containers from aufs layers
 * docker rm -v $(docker ps -a -q -f status=exited)
 
 TODO:
+
 * save results into target folder
 
 * replace launcer.py with bash-script
