@@ -1,8 +1,15 @@
 #!/bin/bash
 set -x
 
-build_rpm() {
-/usr/bin/test_launcher.py -p xterm vzlinux-7 apps
+vzpkg="$PKG"
+# vzlinux-6
+# vzlinux-7
+vzplatform="$PLATFORM"
+# apps or services
+target="$TARGET"
+
+test_package() {
+/usr/bin/test_launcher.py -p $vzpkg $vzplatform $target
 }
 
-build_rpm
+test_package
