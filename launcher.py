@@ -58,6 +58,14 @@ def run_app_tests(target, pkgs_list):
         # We have to remount /proc after orpahskill
         subprocess.call(['sudo', 'mount', '-o', 'bind', '/proc',
                                  '/var/lib/mock/' + target + '-autotest-x86_64/root/proc'])
+        subprocess.call(['sudo', 'mount', '-o', 'bind', '/dev',
+                                 '/var/lib/mock/' + target + '-autotest-x86_64/root/dev'])
+	# mount /dev/shm too
+        subprocess.call(['sudo', 'mount', '-o', 'bind', '/dev/shm',
+                                 '/var/lib/mock/' + target + '-autotest-x86_64/root/dev/shm'])
+	# need to mount /dev/pts if we still want to use sudo in chroot
+        subprocess.call(['sudo', 'mount', '-o', 'bind', '/dev/pts',
+                                 '/var/lib/mock/' + target + '-autotest-x86_64/root/dev/pts'])
 
 def run_service_tests(target, pkgs_list):
     subprocess.call(['sudo', 'cp', '/usr/share/vzlinux-autotest/check_services_in_chroot.py',
