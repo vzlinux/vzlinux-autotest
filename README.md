@@ -16,5 +16,7 @@ Don't forgot to wipe old containers from aufs layers
 
 TODO:
 * save results into target folder
+
 * replace launcer.py with bash-script
+
 * replace centos docker container with vzlinux container
