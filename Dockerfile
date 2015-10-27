@@ -13,7 +13,7 @@ RUN yum update -y \
     && mkdir -p /usr/share/vzlinux-autotest/
 
 WORKDIR ["/home/vztester"]
-VOLUME ["/tmp/output"]
+VOLUME ["/var/log/vzlinux-autotests/"]
 
 USER vztester
 ENV HOME /home/vztester
