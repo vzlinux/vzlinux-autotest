@@ -55,7 +55,7 @@ DEFAULT_TIMEOUT = 30
 EXIT_TIMEOUT = 10
 
 # The directory with the results
-RESULT_DIR = 'results'
+RESULT_DIR = '/tmp/results'
 
 # Files with package lists of the given kind.
 RES_FAILED_TO_INSTALL = RESULT_DIR + '/failed-to-install.list'
@@ -77,7 +77,10 @@ regexps_exception = [
     # Java
     re.compile('^Exception in thread'),
     # Perl
-    re.compile('^Can\'t .* at line')
+    re.compile('^Can\'t .* at line'),
+    re.compile('^Could\'t load .*'),
+    # binaries
+    re.compile('.* cannot open shared object file')
     # TODO: add more
 ]
 
@@ -284,7 +287,7 @@ def check_packages(available_file, installed):
 
                 try:
                     subprocess.check_call(
-                        ['sudo', 'yum', 'install', pkg],
+                        ['sudo', 'yum', 'install', '-y', pkg],
                         stdout=pkg_log, stderr=pkg_log)
 
                 except subprocess.CalledProcessError as e:
@@ -302,7 +305,7 @@ def check_packages(available_file, installed):
                 try:
                     pkg_log.write('\nRemoving ' + pkg + '\n')
                     subprocess.check_call(
-                        ['sudo', 'yum', 'remove', pkg],
+                        ['sudo', 'yum', 'remove', '-y', pkg],
                         stdout=pkg_log, stderr=pkg_log)
                     #subprocess.check_call(
                     #    ['sudo', 'urpme', '--auto', '--auto-orphans'],
@@ -493,10 +496,6 @@ if __name__ == '__main__':
     sys.stdout = my_out
 
     print 'Started at', datetime.today()
-
-    if os.path.exists(RESULT_DIR):
-        shutil.rmtree(RESULT_DIR)
-    os.mkdir(RESULT_DIR)
 
     fnames = [RES_FAILED_TO_INSTALL, RES_FAILED_TO_REMOVE,
               RES_FAILED_TO_CHECK, RES_CRASHED, RES_SUCCEEDED, RES_SKIPPED]
