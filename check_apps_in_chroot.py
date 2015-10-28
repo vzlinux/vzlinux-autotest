@@ -78,9 +78,10 @@ regexps_exception = [
     re.compile('^Exception in thread'),
     # Perl
     re.compile('^Can\'t .* at line'),
-    re.compile('^Could\'t load .*'),
     # binaries
-    re.compile('.* cannot open shared object file')
+    re.compile('^Could\'t load .*'),
+    re.compile('.* cannot open shared object file'),
+    re.compile('.* command not found')
     # TODO: add more
 ]
 
