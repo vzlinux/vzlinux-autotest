@@ -1,7 +1,7 @@
 %define git 20151020
 
 Summary: Autotests for Virtuozzo Linux
-Name: vzlinux-autotest
+Name: vzlinux-autotest2
 Version: 0
 Release: 0.%{git}.4%{?dist}
 License: GPLv2
