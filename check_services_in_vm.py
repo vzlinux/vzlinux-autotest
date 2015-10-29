@@ -27,12 +27,12 @@ from datetime import datetime
 
 
 # Regexp for the needed paths to the .service files.
-re_service = re.compile('/lib/systemd/system/[^/]*[^@]\\.service')
+re_service = re.compile('.*/lib/systemd/system/[^/]*[^@]\\.service')
 
 SEP = 72 * '='
 
 # The directory with the results
-RESULT_DIR = 'results'
+RESULT_DIR = '/tmp/results'
 
 # Files with package lists of the given kind.
 RES_FAILED_TO_INSTALL = RESULT_DIR + '/failed-to-install.list'
@@ -187,13 +187,12 @@ def check_packages(available_file, installed):
 
                 try:
                     subprocess.check_call(
-                        ['sudo', 'urpmi', '--downloader', 'wget', '--auto',
-                         '--no-suggests', pkg],
+                        ['sudo', 'yum', 'install', '-y', pkg],
                         stdout=pkg_log, stderr=pkg_log)
 
                 except subprocess.CalledProcessError as e:
                     pkg_log.write('Failed to install ' + pkg + '\n')
-                    pkg_log.write('urpmi returned %d\n' % e.returncode)
+                    pkg_log.write('yum returned %d\n' % e.returncode)
                     add_to_list(pkg, RES_FAILED_TO_INSTALL)
                     continue
             else:
@@ -206,12 +205,12 @@ def check_packages(available_file, installed):
                 try:
                     pkg_log.write('\nRemoving ' + pkg + '\n')
                     subprocess.check_call(
-                        ['sudo', 'urpme', '--auto', '--auto-orphans', pkg],
+                        ['sudo', 'yum', 'remove', '-y', pkg],
                         stdout=pkg_log, stderr=pkg_log)
 
                 except subprocess.CalledProcessError as e:
                     pkg_log.write('Failed to remove ' + pkg + '\n')
-                    pkg_log.write('urpme returned %d.\n' % e.returncode)
+                    pkg_log.write('yum remove returned %d.\n' % e.returncode)
                     add_to_list(pkg, RES_FAILED_TO_REMOVE)
                     continue
 
@@ -344,10 +343,6 @@ if __name__ == '__main__':
     sys.stdout = my_out
 
     print 'Started at', datetime.today()
-
-    if os.path.exists(RESULT_DIR):
-        shutil.rmtree(RESULT_DIR)
-    os.mkdir(RESULT_DIR)
 
     fnames = [RES_FAILED_TO_INSTALL, RES_FAILED_TO_REMOVE,
               RES_FAILED_TO_CHECK, RES_FAILED, RES_SUCCEEDED, RES_SKIPPED]

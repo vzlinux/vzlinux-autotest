@@ -1,7 +1,7 @@
 #!/bin/bash
 set -x
 
-vzpkg="$PKG"
+vzpkg="$@"
 # vzlinux-6
 # vzlinux-7
 vzplatform="$PLATFORM"
@@ -12,8 +12,9 @@ test_package() {
 #/usr/bin/test_launcher.py -p $vzpkg $vzplatform $target
 # go to the root of home dir
 cd
-echo "$vzpkg" >> $HOME/pkg_list
-/usr/share/vzlinux-autotest/check_apps_in_chroot.py $HOME/pkg_list
+echo "$vzpkg" >> /tmp/pkg_list
+#/usr/share/vzlinux-autotest/check_apps_in_chroot.py $HOME/pkg_list
+/usr/share/vzlinux-autotest/check_services_in_vm.py /tmp/pkg_list
 }
 
 test_package

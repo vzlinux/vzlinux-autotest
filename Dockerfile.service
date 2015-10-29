@@ -1,0 +1,28 @@
+FROM vzlinux/vztester
+MAINTAINER Alex Stefanov-Khryukin <akhryukin@parallels.com>
+
+RUN yum update -y \
+    && yum upgrade -y \
+    && yum install -y sudo which python-lockfile python-psutil xorg-x11-server-Xvfb \
+    && adduser vztester \
+    && echo "%vztester ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers \
+    && mkdir -p /usr/share/vzlinux-autotest/ \
+    && yum remove -y tuned irqbalance openssh-server
+
+RUN yum -y install systemd; yum clean all; \
+(cd /lib/systemd/system/sysinit.target.wants/; for i in *; do [ $i == systemd-tmpfiles-setup.service ] || rm -f $i; done); \
+rm -f /lib/systemd/system/multi-user.target.wants/*;\
+rm -f /etc/systemd/system/*.wants/*;\
+rm -f /lib/systemd/system/local-fs.target.wants/*; \
+rm -f /lib/systemd/system/sockets.target.wants/*udev*; \
+rm -f /lib/systemd/system/sockets.target.wants/*initctl*; \
+rm -f /lib/systemd/system/basic.target.wants/*;\
+rm -f /lib/systemd/system/anaconda.target.wants/*;
+
+ENV container docker
+
+ADD ./check_services_in_vm.py /usr/share/vzlinux-autotest/check_services_in_vm.py
+ADD ./run-autotest.sh /run-autotest.sh
+
+VOLUME ["/sys/fs/cgroup"]
+CMD ["/usr/sbin/init"]
