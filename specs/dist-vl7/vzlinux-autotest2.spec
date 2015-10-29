@@ -2,7 +2,7 @@
 
 Summary: Autotests for Virtuozzo Linux
 Name: vzlinux-autotest2
-Version: 0
+Version: 0.1
 Release: 0.%{git}.4%{?dist}
 License: GPLv2
 Group: System Environment/Base
