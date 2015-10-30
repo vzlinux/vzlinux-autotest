@@ -22,7 +22,7 @@ rm -f /lib/systemd/system/anaconda.target.wants/*;
 ENV container docker
 
 ADD ./check_services_in_vm.py /usr/share/vzlinux-autotest/check_services_in_vm.py
-ADD ./run-autotest.sh /run-autotest.sh
+ADD ./run-service.sh /run-service.sh
 
 VOLUME ["/sys/fs/cgroup"]
 CMD ["/usr/sbin/init"]

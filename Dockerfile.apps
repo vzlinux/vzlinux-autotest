@@ -14,6 +14,6 @@ USER vztester
 ENV HOME /home/vztester
 
 ADD ./check_apps_in_chroot.py /usr/share/vzlinux-autotest/check_apps_in_chroot.py
-ADD ./run-autotest.sh /run-autotest.sh
+ADD ./run-apps.sh /run-apps.sh
 
-CMD ["/run-autotest.sh"]
+CMD ["/run-apps.sh"]
