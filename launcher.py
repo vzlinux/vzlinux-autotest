@@ -60,10 +60,10 @@ def run_app_tests(target, pkgs_list):
                                  '/var/lib/mock/' + target + '-autotest-x86_64/root/proc'])
         subprocess.call(['sudo', 'mount', '-o', 'bind', '/dev',
                                  '/var/lib/mock/' + target + '-autotest-x86_64/root/dev'])
-	# mount /dev/shm too
+        # mount /dev/shm too
         subprocess.call(['sudo', 'mount', '-o', 'bind', '/dev/shm',
                                  '/var/lib/mock/' + target + '-autotest-x86_64/root/dev/shm'])
-	# need to mount /dev/pts if we still want to use sudo in chroot
+        # need to mount /dev/pts if we still want to use sudo in chroot
         subprocess.call(['sudo', 'mount', '-o', 'bind', '/dev/pts',
                                  '/var/lib/mock/' + target + '-autotest-x86_64/root/dev/pts'])
 
@@ -123,4 +123,15 @@ if __name__ == '__main__':
     # Cleanup
     if cmdline.pkg:
         os.remove(pkg_list)
+
+    subprocess.call(['sudo', 'mock', '-r', cmdline.target + '-autotest-x86_64',
+                                 '--orphanskill'])
+    subprocess.call(['sudo', 'umount',
+                                 '/var/lib/mock/' + cmdline.target + '-autotest-x86_64/root/proc'])
+    subprocess.call(['sudo', 'umount',
+                                 '/var/lib/mock/' + cmdline.target + '-autotest-x86_64/root/dev'])
+    subprocess.call(['sudo', 'umount',
+                                 '/var/lib/mock/' + cmdline.target + '-autotest-x86_64/root/dev/shm'])
+    subprocess.call(['sudo', 'umount',
+                                 '/var/lib/mock/' + cmdline.target + '-autotest-x86_64/root/dev/pts'])
     lock.release()

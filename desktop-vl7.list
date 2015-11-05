@@ -41,6 +41,7 @@ gimp
 git-gui
 glade
 glade3
+gnome-abrt
 gnome-bluetooth
 gnome-boxes
 gnome-calculator
@@ -59,6 +60,7 @@ gnome-shell
 gnome-system-log
 gnome-system-monitor
 gnome-terminal
+gnome-tweak-tool
 gnome-weather
 gnote
 gucharmap
@@ -68,6 +70,7 @@ highlight-gui
 hplip-gui
 ibus-hangul
 ibus-kkc
+ibus-libpinyin
 ibus-m17n
 ibus-setup
 ibus-typing-booster
@@ -170,7 +173,10 @@ strigi
 subscription-manager-gui
 sweeper
 system-config-date
+system-config-firewall
 system-config-kdump
+system-config-keyboard
+system-config-kickstart
 system-config-language
 system-config-printer
 system-config-users
