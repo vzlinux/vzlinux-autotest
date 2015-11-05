@@ -6,13 +6,39 @@ usage:
 $0 [service] [package] [distro-release]
 $0 [apps] [package] [distro-release]
 $0 [add user $(whoami) to docker group]
+$0 [example: sh runtest.sh apps firefox vl7] or [sh runtest.sh service realmd vl7]
 EOT
 }
 
 # package to check
 PKG="$2"
+IRUN="$1"
+DISTRO_RELEASE="$3"
+
+check_in_list() {
+if [[ "$IRUN" == "apps" ]]; then
+FILE_PREFIX="desktop"
+fi
+if [[ "$IRUN" == "service" ]]; then
+FILE_PREFIX="service"
+fi
+PATTERN="$PKG"
+FILE=""$FILE_PREFIX"-"$DISTRO_RELEASE".list"
+
+if grep -q $PATTERN $FILE;
+ then
+     echo "Here are the Strings with the Pattern '$PATTERN':"
+     echo "proceed normal test"
+ else
+     echo "Error: The Pattern '$PATTERN' was NOT Found in '$FILE'"
+     echo "Exiting..."
+     exit 0
+fi
+}
 
 run_service() {
+	echo "check that service exist in service-vl7.list"
+	check_in_list
 	# need to run container with systemd-stuff
 	docker run --privileged -td --name servicetest -v /tmp/results:/tmp/results/ vzlinux/servicetest /sbin/init
 	# attach to container and exec script
@@ -25,6 +51,8 @@ run_service() {
 
 run_apps() {
 	# run app check
+	echo "compare app with list desktop-vl7.list"
+	check_in_list
 	docker run -it --rm --privileged=true -e PKG="$PKG" -v /tmp/results:/tmp/results/ vzlinux/apptest
 }
 
