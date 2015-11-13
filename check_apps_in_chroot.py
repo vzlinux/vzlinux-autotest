@@ -432,6 +432,7 @@ def do_check(pkg, name, command, pkg_log, timeout=DEFAULT_TIMEOUT):
 
         pkg_log.flush()
         crashed = crashed_procs(pkg, pkg_log)
+	ldproc = subprocess.Popen('ldd' + ' ' '$(which '+ command + ')', shell=True, stdout=pkg_log, stderr=pkg_log)
 
         # Just in case (zombies, uninterruptible sleeps in a driver, ...)
         ret = proc.poll()
