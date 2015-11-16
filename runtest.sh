@@ -55,6 +55,11 @@ run_apps() {
 	check_in_list
 	docker run -it --rm --privileged=true -e PKG="$PKG" -v /tmp/results:/tmp/results/ vzlinux/apptest
 }
+run_binapps() {
+	# run app check
+	echo "test app not from *desktop lists files"
+	docker run -it --rm --privileged=true -e PKG="$PKG" -v /tmp/results:/tmp/results/ vzlinux/binapps
+}
 
 main() {
 if [[ "$1" == "service" ]]; then
@@ -62,6 +67,9 @@ run_service $@
 fi
 if [[ "$1" == "apps" ]]; then
 run_apps $@
+fi
+if [[ "$1" == "binapps" ]]; then
+run_binapps $@
 fi
 
 # help

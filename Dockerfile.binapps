@@ -1,0 +1,17 @@
+FROM vzlinux/vztester
+MAINTAINER Alex Stefanov-Khryukin <akhryukin@parallels.com>
+
+RUN yum update -y \
+    && yum upgrade -y \
+    && yum install -y sudo which file \
+    && adduser vztester \
+    && echo "%vztester ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
+
+WORKDIR ["/home/vztester"]
+
+USER vztester
+ENV HOME /home/vztester
+
+ADD ./app_checker.sh /app_checker.sh
+
+CMD ["/app_checker.sh"]

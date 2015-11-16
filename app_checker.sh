@@ -1,3 +1,4 @@
+#!/bin/bash
 # The section in a .desktop file we need.
 SECTION="Desktop Entry"
 
@@ -46,7 +47,7 @@ if [ $result -eq 0 ]; then
         else
                 binary_file=$(cat $PACKAGE_QL | grep "/usr/bin/\|/bin/\|/sbin/\|/usr/sbin/")
 		$LDD_RUN $binary_file | grep "$PATTERN" >> $RESULT_DIR/ld_log_$PKG
-		if [ "$(grep 'not found' /tmp/ld_log_$PKG)" ]; then
+		if [ "$(grep 'not found' $RESULT_DIR/ld_log_$PKG)" ]; then
 			echo "not ok"
 			echo "Package does not working properly, check libs"
         		echo "$PKG" >> $RES_FAILED_TO_CHECK
