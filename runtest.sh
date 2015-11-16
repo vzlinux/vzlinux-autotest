@@ -6,7 +6,7 @@ usage:
 $0 [service] [package] [distro-release]
 $0 [apps] [package] [distro-release]
 $0 [add user $(whoami) to docker group]
-$0 [example: sh runtest.sh apps firefox vl7] or [sh runtest.sh service realmd vl7]
+$0 [example: sh runtest.sh apps firefox vl7] or [sh runtest.sh service realmd vl7] or [sh runtest.sh binapps vim-enhanced vl7]
 EOT
 }
 
