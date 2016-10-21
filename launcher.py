@@ -47,7 +47,7 @@ def run_app_tests(target, pkgs_list):
         result_dir = "/var/log/vzlinux-autotests/" + target + "/" + pkg.rstrip()
         if os.path.exists(result_dir):
             shutil.rmtree(result_dir)
-        testdir = '/var/lib/mock/' + target + '-autotest-x86_64/root/results'
+        testdir = '/var/lib/mock/' + target + '-autotest-x86_64/root/tmp/results'
         shutil.copytree(testdir, result_dir)
 
         # Kill orphans - that's why we call check_apps_in_chroot.py per every package, not

@@ -271,6 +271,9 @@ def check_packages(available_file, installed):
 
     passed = 0
 
+    if not os.path.exists(RESULT_DIR):
+        os.mkdir(RESULT_DIR)
+
     for pkg in to_check:
         #print 40 * '=', '\n'
 
