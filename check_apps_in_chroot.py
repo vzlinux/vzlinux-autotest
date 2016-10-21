@@ -301,6 +301,9 @@ def check_packages(available_file, installed):
                     continue
             else:
                 pkg_log.write('Already installed: ' + pkg + '\n')
+                subprocess.check_call(
+                        ['sudo', 'yum', 'update', '-y', pkg],
+                        stdout=pkg_log, stderr=pkg_log)
 
             if check_apps(pkg, pkg_log):
                 passed = passed + 1
