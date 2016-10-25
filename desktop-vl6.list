@@ -12,7 +12,6 @@ bsh-desktop
 cheese
 cmake-gui
 compiz-gnome
-control-center
 desktop-effects
 devhelp
 eclipse-platform
@@ -65,7 +64,6 @@ icedtea-web
 im-chooser
 inkscape
 iok
-java-1.6.0-openjdk-devel
 java-1.6.0-sun
 java-1.7.0-openjdk-devel
 java-1.7.0-oracle-plugin
@@ -78,10 +76,8 @@ kdeadmin
 kdeartwork-screensavers
 kdebase
 kdebase-runtime
-kdebase-workspace
 kdegames
 kdegraphics
-kdelibs
 kdemultimedia
 kdenetwork
 kdepim
