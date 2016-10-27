@@ -283,6 +283,22 @@ def get_status(service, pkg_log):
                 service, e.returncode))
         return None
 
+def prepare_configs(service, pkg_log)
+    '''Some services require preliminary preparation
+
+    Let's do it here.
+    '''
+    if service == "abrt-upload-watch":
+        subprocess.call(['sed', '-i',
+                          's/^#WatchCrashdumpArchiveDir/WatchCrashdumpArchiveDir/',
+                          '/etc/abrt/abrt.conf'],
+                          stdout=pkg_log)
+    elif service == "conman":
+        subprocess.call(['sed', '-i',
+                          's/^#console name="<str>" dev="<str>" \\/console name="c1" dev="/dev/tty10"/',
+                          '/etc/conman.conf'],
+                          stdout=pkg_log)
+
 
 def do_check(service, pkg_log):
     '''Check the given service if it is not already active.
@@ -309,6 +325,9 @@ def do_check(service, pkg_log):
     elif status != STATUS_INACTIVE:
         pkg_log.write('Unknown status: %s.\n' % status)
         return False
+
+    # Setup config filesm if necessary
+    prepare_configs(service, pkg_log)
 
     # The service is available but has not started yet (or the corresponding
     # process has already exited), try to start it.

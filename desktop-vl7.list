@@ -24,7 +24,6 @@ emacs
 emacs-terminal
 empathy
 eog
-epydoc
 esc
 evince
 evolution
@@ -41,7 +40,6 @@ gimp
 git-gui
 glade
 glade3
-gnome-abrt
 gnome-bluetooth
 gnome-boxes
 gnome-calculator
@@ -56,11 +54,9 @@ gnome-font-viewer
 gnome-packagekit
 gnome-screenshot
 gnome-session
-gnome-shell
 gnome-system-log
 gnome-system-monitor
 gnome-terminal
-gnome-tweak-tool
 gnome-weather
 gnote
 gucharmap
@@ -70,7 +66,6 @@ highlight-gui
 hplip-gui
 ibus-hangul
 ibus-kkc
-ibus-libpinyin
 ibus-m17n
 ibus-setup
 ibus-typing-booster
@@ -92,18 +87,13 @@ kcm-gtk
 kcm_touchpad
 kcolorchooser
 kcoloredit
-kdeadmin
 kde-baseapps
-kdelibs
 kdenetwork-kget
 kdenetwork-kopete
 kdenetwork-krdc
 kdenetwork-krfb
-kdepim
-kdepim-runtime
 kde-plasma-networkmanagement
 kde-print-manager
-kde-runtime
 kdesdk-cervisia
 kdesdk-kapptemplate
 kdesdk-kcachegrind
@@ -111,8 +101,6 @@ kdesdk-kompare
 kdesdk-kuiviewer
 kdesdk-lokalize
 kdesdk-okteta
-kdesdk-umbrello
-kde-workspace
 kdf
 kgpg
 kiconedit
@@ -175,7 +163,6 @@ sweeper
 system-config-date
 system-config-firewall
 system-config-kdump
-system-config-keyboard
 system-config-kickstart
 system-config-language
 system-config-printer
@@ -188,7 +175,6 @@ totem
 tracker-ui-tools
 tuna
 usermode-gtk
-vim-X11
 vinagre
 virt-manager
 virt-viewer
