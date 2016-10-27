@@ -68,12 +68,7 @@ def run_app_tests(target, pkgs_list):
                                  '/var/lib/mock/' + target + '-autotest-x86_64/root/dev/pts'])
 
 def run_service_tests(target, pkgs_list):
-    subprocess.call(['sudo', 'cp', '/usr/share/vzlinux-autotest/check_services_in_chroot.py',
-                             '/var/lib/mock/' + target + '-autotest-x86_64/root/root'])
-    subprocess.call(['sudo', 'cp', pkgs_list,
-                             '/var/lib/mock/' + target + '-autotest-x86_64/root/root/list'])
-    subprocess.call(['sudo', 'chroot', '/var/lib/mock/' + target + '-autotest-x86_64/root',
-                             'python', 'root/check_services_in_chroot.py', 'root/list'])
+    subprocess.call(['python', '/usr/share/vzlinux-autotest/check_services_in_vm.py', pkgs_lis])
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description="VzLinux Autotest Launcher")

@@ -288,14 +288,14 @@ def prepare_configs(service, pkg_log):
 
     Let's do it here.
     '''
-    if service == "abrt-upload-watch":
+    if service.startswith("abrt-upload-watch"):
         subprocess.call(['sed', '-i',
                           's/^#WatchCrashdumpArchiveDir/WatchCrashdumpArchiveDir/',
                           '/etc/abrt/abrt.conf'],
                           stdout=pkg_log)
-    elif service == "conman":
+    elif service.startswith("conman"):
         subprocess.call(['sed', '-i',
-                          's/^#console name="<str>" dev="<str>" \\/console name="c1" dev="/dev/tty10"/',
+                          's/^#console name="<str>" dev="<str>" \\\\/console name="c1" dev="\\/dev\\/tty10"/',
                           '/etc/conman.conf'],
                           stdout=pkg_log)
 
