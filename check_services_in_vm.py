@@ -283,7 +283,7 @@ def get_status(service, pkg_log):
                 service, e.returncode))
         return None
 
-def prepare_configs(service, pkg_log)
+def prepare_configs(service, pkg_log):
     '''Some services require preliminary preparation
 
     Let's do it here.
