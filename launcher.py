@@ -68,7 +68,7 @@ def run_app_tests(target, pkgs_list):
                                  '/var/lib/mock/' + target + '-autotest-x86_64/root/dev/pts'])
 
 def run_service_tests(target, pkgs_list):
-    subprocess.call(['python', '/usr/share/vzlinux-autotest/check_services_in_vm.py', pkgs_lis])
+    subprocess.call(['python', '/usr/share/vzlinux-autotest/check_services_in_vm.py', pkgs_list])
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description="VzLinux Autotest Launcher")
@@ -108,10 +108,19 @@ if __name__ == '__main__':
     elif cmdline.mode == 'services':
         pkg_list = '/usr/share/vzlinux-autotest/' + cmdline.target + '.service.list'
 
-    init_chroot(cmdline.target)
-
     if cmdline.mode == 'apps':
+        init_chroot(cmdline.target)
         run_app_tests(cmdline.target, pkg_list)
+        subprocess.call(['sudo', 'mock', '-r', cmdline.target + '-autotest-x86_64',
+                                 '--orphanskill'])
+        subprocess.call(['sudo', 'umount',
+                                 '/var/lib/mock/' + cmdline.target + '-autotest-x86_64/root/proc'])
+        subprocess.call(['sudo', 'umount',
+                                 '/var/lib/mock/' + cmdline.target + '-autotest-x86_64/root/dev'])
+        subprocess.call(['sudo', 'umount',
+                                 '/var/lib/mock/' + cmdline.target + '-autotest-x86_64/root/dev/shm'])
+        subprocess.call(['sudo', 'umount',
+                                 '/var/lib/mock/' + cmdline.target + '-autotest-x86_64/root/dev/pts'])
     elif cmdline.mode == 'services':
         run_service_tests(cmdline.target, pkg_list)
 
@@ -119,14 +128,4 @@ if __name__ == '__main__':
     if cmdline.pkg:
         os.remove(pkg_list)
 
-    subprocess.call(['sudo', 'mock', '-r', cmdline.target + '-autotest-x86_64',
-                                 '--orphanskill'])
-    subprocess.call(['sudo', 'umount',
-                                 '/var/lib/mock/' + cmdline.target + '-autotest-x86_64/root/proc'])
-    subprocess.call(['sudo', 'umount',
-                                 '/var/lib/mock/' + cmdline.target + '-autotest-x86_64/root/dev'])
-    subprocess.call(['sudo', 'umount',
-                                 '/var/lib/mock/' + cmdline.target + '-autotest-x86_64/root/dev/shm'])
-    subprocess.call(['sudo', 'umount',
-                                 '/var/lib/mock/' + cmdline.target + '-autotest-x86_64/root/dev/pts'])
     lock.release()
