@@ -137,6 +137,7 @@ pcp-gui
 policycoreutils-gui
 polkit-kde
 publican-doc
+qt3-config
 qt3-designer
 qt3-devel
 qt-assistant

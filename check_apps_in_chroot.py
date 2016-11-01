@@ -169,6 +169,9 @@ def check_apps(pkg, pkg_log):
     failed = False
     processed_commands = {}
 
+    # For Qt3 apps
+    os.environ['PATH'] = os.environ['PATH'] + ":/usr/lib64/qt-3.3/bin/"
+
     for fl in out.split('\n'):
         if re_desktop.match(fl):
             try:
