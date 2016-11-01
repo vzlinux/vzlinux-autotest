@@ -73,7 +73,6 @@ icedtea-web
 im-chooser
 inkscape
 iok
-java-1.6.0-openjdk-devel
 java-1.7.0-openjdk-devel
 java-1.8.0-openjdk
 java-1.8.0-openjdk-devel
@@ -101,10 +100,8 @@ kdesdk-kompare
 kdesdk-kuiviewer
 kdesdk-lokalize
 kdesdk-okteta
-kdf
 kgpg
 kiconedit
-kio_sysinfo
 kmag
 kmix
 kolourpaint
@@ -140,7 +137,6 @@ pcp-gui
 policycoreutils-gui
 polkit-kde
 publican-doc
-qt3-config
 qt3-designer
 qt3-devel
 qt-assistant
@@ -155,17 +151,13 @@ scap-workbench
 seahorse
 seahorse-nautilus
 setools-gui
-setroubleshoot
 shotwell
 strigi
 subscription-manager-gui
 sweeper
 system-config-date
-system-config-firewall
 system-config-kdump
-system-config-kickstart
 system-config-language
-system-config-printer
 system-config-users
 system-switch-java
 thunderbird

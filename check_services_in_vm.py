@@ -47,6 +47,9 @@ STATUS_ACTIVE = 'active'
 STATUS_INACTIVE = 'inactive'
 STATUS_FAILED = 'failed'
 
+# List of services to be ignored.
+# Useful if we want to test only part of services provided by some package
+IGNORE_LIST = ['nfs-blkmap.service']
 
 class SyncedOut(object):
     '''A wrapper around sys.stdout that flushes the output each time.
@@ -293,6 +296,14 @@ def prepare_configs(service, pkg_log):
                           's/^#WatchCrashdumpArchiveDir/WatchCrashdumpArchiveDir/',
                           '/etc/abrt/abrt.conf'],
                           stdout=pkg_log)
+    elif service.startswith("postgresql"):
+        subprocess.call(['postgresql-setup', 'initdb'],
+                          stdout=pkg_log)
+    elif service.startswith("svn"):
+        try:
+            os.mkdir("/var/svn")
+        except:
+            pass
     elif service.startswith("conman"):
         subprocess.call(['sed', '-i',
                           's/^#console name="<str>" dev="<str>" \\\\/console name="c1" dev="\\/dev\\/tty10"/',
@@ -310,6 +321,10 @@ def do_check(service, pkg_log):
     '''
     pkg_log.write(SEP + '\n\n')
     pkg_log.write('Checking %s.\n' % service)
+
+    if service in IGNORE_LIST:
+        prk_log.write('Test for this service is blacklisted, skipping')
+        return True
 
     status = get_status(service, pkg_log)
     if status == STATUS_ACTIVE:
