@@ -61,7 +61,6 @@ iscsi-initiator-utils
 iscsi-initiator-utils-iscsiuio
 isns-utils
 keepalived
-kexec-tools
 libcanberra
 libcgroup-tools
 libstoragemgmt
@@ -72,8 +71,6 @@ lm_sensors-sensord
 lvm2
 mailman
 mariadb-server
-mcelog
-mcstrans
 mdadm
 memcached
 mgetty
@@ -98,7 +95,6 @@ openslp-server
 opensm
 openssh-server
 open-vm-tools
-openwsman-server
 pacemaker-remote
 PackageKit
 pcp

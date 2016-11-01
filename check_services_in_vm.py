@@ -299,16 +299,25 @@ def prepare_configs(service, pkg_log):
     elif service.startswith("postgresql"):
         subprocess.call(['postgresql-setup', 'initdb'],
                           stdout=pkg_log)
+    elif service.startswith("stinit"):
+        subprocess.call(['touch', '/etc/stinit.def'],
+                          stdout=pkg_log)
+    elif service.startswith("mailman"):
+        subprocess.call(['/usr/lib/mailman/bin/newlist', '-q', 'root@localhost',
+                          'root'],
+                          stdout=pkg_log)
     elif service.startswith("svn"):
         try:
             os.mkdir("/var/svn")
         except:
             pass
     elif service.startswith("conman"):
-        subprocess.call(['sed', '-i',
-                          's/^#console name="<str>" dev="<str>" \\\\/console name="c1" dev="\\/dev\\/tty10"/',
-                          '/etc/conman.conf'],
-                          stdout=pkg_log)
+        with open("/etc/conman.conf", "a") as conf:
+            conf.write("console name=\"c1\" dev=\"/dev/tty10\"")
+#        subprocess.call(['sed', '-i',
+#                          's/^#console name="<str>" dev="<str>" \\\\/console name="c1" dev="\\/dev\\/tty10"/',
+#                          '/etc/conman.conf'],
+#                          stdout=pkg_log)
 
 
 def do_check(service, pkg_log):
@@ -336,7 +345,9 @@ def do_check(service, pkg_log):
         pkg_log.flush()
         subprocess.call(['sudo', 'systemctl', 'status', service],
                         stdout=pkg_log)
-        return False
+        # Even if failed at boot, try to start service again - 
+        # it it possible that our prepare_config function will help it
+#        return False
     elif status != STATUS_INACTIVE:
         pkg_log.write('Unknown status: %s.\n' % status)
         return False
