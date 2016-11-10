@@ -328,7 +328,7 @@ def do_check(service, pkg_log):
     pkg_log.write('Checking %s.\n' % service)
 
     if service in IGNORE_LIST:
-        prk_log.write('Test for this service is blacklisted, skipping')
+        pkg_log.write('Test for this service is blacklisted, skipping')
         return True
 
     status = get_status(service, pkg_log)
