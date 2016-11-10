@@ -303,8 +303,8 @@ def prepare_configs(service, pkg_log):
         subprocess.call(['touch', '/etc/stinit.def'],
                           stdout=pkg_log)
     elif service.startswith("mailman"):
-        subprocess.call(['/usr/lib/mailman/bin/newlist', '-q', 'root@localhost',
-                          'root'],
+        subprocess.call(['/usr/lib/mailman/bin/newlist', '-q', 'rootlist',
+                          'root@localhost', 'password'],
                           stdout=pkg_log)
     elif service.startswith("svn"):
         try:
@@ -314,10 +314,6 @@ def prepare_configs(service, pkg_log):
     elif service.startswith("conman"):
         with open("/etc/conman.conf", "a") as conf:
             conf.write("console name=\"c1\" dev=\"/dev/tty10\"")
-#        subprocess.call(['sed', '-i',
-#                          's/^#console name="<str>" dev="<str>" \\\\/console name="c1" dev="\\/dev\\/tty10"/',
-#                          '/etc/conman.conf'],
-#                          stdout=pkg_log)
 
 
 def do_check(service, pkg_log):
