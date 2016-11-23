@@ -27,6 +27,7 @@ brltty
 cachefilesd
 certmonger
 chrony
+collectd
 colord
 conman
 cronie
