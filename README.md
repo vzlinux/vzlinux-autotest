@@ -11,7 +11,7 @@ How to run me?
 
 Mount log directory volume to the host system
 
-* docker run -it --rm --privileged=true -e PKG="xterm" -e PLATFORM="vzlinux-7" -e TARGET="apps" -v /tmp/:/var/log/vzlinux-autotests/ vzlinux/autotest 
+* docker run -it --rm --privileged=true -e PKG="xterm" -e PLATFORM="vzlinux-7" -e TARGET="apps" -v /tmp/:/var/log/vzlinux-autotests/ vzlinux/autotest
 
 * docker run -it --rm --privileged=true -e PKG="thunderbird" -v /tmp/results:/tmp/results/ vzlinux/autotest
 
