@@ -23,7 +23,7 @@ def init_chroot(target):
         subprocess.call(['sudo', 'mount', '-o', 'bind', '/proc',
                                  '/var/lib/mock/' + target + '-autotest-x86_64/root/proc'])
     except:
-        print("mock failed to initializae chroot, probably incorrect target name")
+        print("mock failed to initialize chroot, probably incorrect target name")
         sys.exit(1)
 
 def run_app_tests(target, pkgs_list):
@@ -72,7 +72,7 @@ def run_service_tests(target, pkgs_list):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description="VzLinux Autotest Launcher")
-    parser.add_argument('target', action='store', choices=['vzlinux-6', 'vzlinux-7'])
+    parser.add_argument('target', action='store', choices=['vzlinux-6', 'vzlinux-7', 'vzlinux-8'])
     parser.add_argument('mode', action='store', choices=['apps','services'])
     parser.add_argument('-t', '--timeout', action='store', nargs='?',
                                help='Maximum time in seconds to wait for an exclusive lock '\
