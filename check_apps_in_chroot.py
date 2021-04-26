@@ -1,5 +1,10 @@
 #!/usr/bin/env python
 
+# Copyright (c) 2017-2021, Virtuozzo International GmbH
+#
+# Our contact details: Virtuozzo International GmbH, Vordergasse 59, 8200
+# Schaffhausen, Switzerland.
+
 # The script finds .desktop files for the applications in the given packages
 # and attempts to launch these applications and check if they crash on
 # startup.

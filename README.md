@@ -27,8 +27,6 @@ TODO:
 
 * replace launcer.py with bash-script
 
-* replace centos docker container with vzlinux container
-
 docker run --privileged -td --name servicetest vzlinux/servicetest /sbin/init
 
 docker exec -it servicetest /run-autotest.sh PKG=tuned

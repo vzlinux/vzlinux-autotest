@@ -1,5 +1,10 @@
 #!/usr/bin/python3
 
+# Copyright (c) 2017-2021, Virtuozzo International GmbH
+#
+# Our contact details: Virtuozzo International GmbH, Vordergasse 59, 8200
+# Schaffhausen, Switzerland.
+
 import subprocess
 import argparse
 import sys

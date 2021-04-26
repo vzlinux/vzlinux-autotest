@@ -1,5 +1,5 @@
-FROM vzlinux/vztester
-MAINTAINER Alex Stefanov-Khryukin <akhryukin@parallels.com>
+FROM virtuozzo/vzlinux
+MAINTAINER Alex Stefanov-Khryukin <akhryukin@virtuozzo.com>
 
 RUN yum update -y \
     && yum upgrade -y \

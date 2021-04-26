@@ -1,4 +1,10 @@
 #!/bin/bash
+
+# Copyright (c) 2017-2021, Virtuozzo International GmbH
+#
+# Our contact details: Virtuozzo International GmbH, Vordergasse 59, 8200
+# Schaffhausen, Switzerland.
+
 # The directory with the results
 RESULT_DIR="/tmp/results"
 PACKAGE_QL="/tmp/rpmql_$PKG"
@@ -68,7 +74,7 @@ if [ $result -eq 0 ]; then
 		run_libraries
 		if [ "$(grep 'not found' $RESULT_DIR/ld_log_$PKG)" ]; then
 			echo "not ok"
-			echo "Package does not working properly, check libs"
+			echo "Package does not work properly, check libs"
         		echo "$PKG" >> $RES_FAILED_TO_CHECK
 		else
 			echo "ldd says that's $PKG is good"
@@ -80,7 +86,7 @@ if [ $result -eq 0 ]; then
 		run_libraries
 		if [ "$(grep 'not found' $RESULT_DIR/ld_log_$PKG)" ]; then
 			echo "not ok"
-			echo "Package does not working properly, check libs"
+			echo "Package does not work properly, check libs"
         		echo "$PKG" >> $RES_FAILED_TO_CHECK
 		else
 			echo "ldd says that's $PKG is good"

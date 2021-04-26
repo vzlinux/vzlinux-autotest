@@ -1,5 +1,10 @@
 #!/usr/bin/env python
 
+# Copyright (c) 2017-2021, Virtuozzo International GmbH
+#
+# Our contact details: Virtuozzo International GmbH, Vordergasse 59, 8200
+# Schaffhausen, Switzerland.
+
 # Should be executed as a regular user (not root), see Readme.txt for more
 # information.
 #
