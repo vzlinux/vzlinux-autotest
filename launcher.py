@@ -18,9 +18,9 @@ def init_chroot(target):
     try:
         subprocess.call(['sudo', 'mock', '-r', target + '-autotest-x86_64',
                                  '--init'])
-        # For 6.x tests running in chroot created by 7.x mock/rpm,
+        # For 6.x / 7.x tests can be launched in chroot created by 8.x mock/rpm,
         # rebuild rpm db by means of native rpm
-        if target == "vzlinux-6":
+        if target == "vzlinux-6" or target == "vzlinux-7":
             subprocess.call(['sudo', 'mock', '-r', target + '-autotest-x86_64',
                                      '--chroot', 'rm -f /var/lib/rpm/__*'])
             subprocess.call(['sudo', 'mock', '-r', target + '-autotest-x86_64',
