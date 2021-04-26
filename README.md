@@ -1,3 +1,22 @@
+A set of simple scripts that checks packages with .desktop and .service files inside to ensure that corresponding programs
+and services can be launched.
+
+Once we build a new version of package into VzLinux repos, such tests are launched automatically for it.
+
+
+= Test Launcher =
+
+launcher.py is the main script (packaged as "vzlinux-autotest" binary into the vzlinux-autotest package inside VzLinux repos).
+
+It calls check_apps_in_chroot.py script to check if applications can be launched using command lines from their desktop files
+and check_services_in_vm.py to check if services works.
+
+A set of desktop files & services to be checked is prepared in semi-automated way - we just dump all packages with desktop
+or service files inside and check if the tests can be launched for them
+
+
+= Docker Part (not maintained) =
+
 docker autotester
 
 How to build me?
